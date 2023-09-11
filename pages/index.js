@@ -8,7 +8,56 @@ const comfortor = Comforter({
 });
 
 const index = () => {
+  const [firstname, setfirstname] = useState("");
+  const [lastname, setlastname] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [cpassword, setcpassword] = useState("");
   const [isSignup, setisSignup] = useState(false);
+
+  const handleonSignup = async () => {
+    if (password == cpassword) {
+      try {
+        const response = await fetch("http://localhost:3000/api/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            password: password,
+          }),
+        });
+        let res = await response.json();
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log("Password doesnot match");
+    }
+  };
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      let res = await response.json();
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <div
@@ -42,6 +91,10 @@ const index = () => {
           </h1>
           <div className='inputs space-y-10'>
             <input
+              value={email}
+              onChange={(e) => {
+                setemail(e.target.value);
+              }}
               placeholder='Email or phoneno'
               className='p-1 border-gray-400 border w-3/4 rounded-sm  focus:outline-gray-400'
               type='text'
@@ -49,6 +102,10 @@ const index = () => {
               id=''
             />
             <input
+              value={password}
+              onChange={(e) => {
+                setpassword(e.target.value);
+              }}
               placeholder='Password'
               className='p-1 border-gray-400 border w-3/4 rounded-sm focus:outline-gray-400'
               type='password'
@@ -56,6 +113,9 @@ const index = () => {
               id=''
             />
             <input
+              onClick={() => {
+                handleLogin();
+              }}
               className='p-1 border-gray-400 border w-3/4 rounded-md text-white font-sans cursor-pointer active:bg-sky-600 hover:bg-sky-500 bg-sky-600 '
               type='button'
               value={"Log in"}
@@ -103,32 +163,55 @@ const index = () => {
         </div>
         <div className='form  space-y-10 '>
           <input
+            value={firstname}
+            onChange={(e) => {
+              setfirstname(e.target.value);
+            }}
             placeholder='Firstname'
             className='bg-stone-200 py-2 px-4 w-[41%] focus:outline-gray-400 rounded-md '
             type='text'
           />
 
           <input
+            value={lastname}
+            onChange={(e) => {
+              setlastname(e.target.value);
+            }}
             placeholder='Lastname'
             className='bg-stone-200 py-2 px-4 w-[41%] focus:outline-gray-400 ml-8 rounded-md'
             type='text'
           />
           <input
+            onChange={(e) => {
+              setemail(e.target.value);
+            }}
+            value={email}
             placeholder='Enter the Email'
             className='bg-stone-200 py-2 px-4 w-[90%] focus:outline-gray-400 rounded-md'
             type='text'
           />
           <input
+            onChange={(e) => {
+              setpassword(e.target.value);
+            }}
+            value={password}
             placeholder='Enter the Password'
             className='bg-stone-200 py-2 px-4 w-[90%] focus:outline-gray-400 rounded-md'
             type='password'
           />
           <input
+            onChange={(e) => {
+              setcpassword(e.target.value);
+            }}
+            value={cpassword}
             placeholder='Confirm Password'
             className='bg-stone-200 py-2 px-4 w-[90%] focus:outline-gray-400 rounded-md'
             type='password'
           />
           <input
+            onClick={() => {
+              handleonSignup();
+            }}
             className='text-white mx-[30%] cursor-pointer focus:outline-gray-400 rounded-md bg-sky-700 w-[30%] p-2 '
             type='button'
             value='Sign up'
