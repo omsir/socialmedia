@@ -1,25 +1,28 @@
 const mongoose = require("mongoose");
 var bcrypt = require("bcryptjs");
 
-const uScema = new mongoose.Schema({
-  firstname: {
-    type: String,
-    required: true,
+const uScema = new mongoose.Schema(
+  {
+    firstname: {
+      type: String,
+      required: true,
+    },
+    lastname: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  lastname: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true },
+);
 uScema.pre("save", async (next) => {
   try {
     const salt = bcrypt.genSaltSync(10);

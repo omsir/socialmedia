@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Comforter } from "next/font/google";
+import { useRouter } from "next/router";
 
 const comfortor = Comforter({
   weight: "400",
@@ -8,6 +9,7 @@ const comfortor = Comforter({
 });
 
 const index = () => {
+  let router = useRouter();
   const [firstname, setfirstname] = useState("");
   const [lastname, setlastname] = useState("");
   const [email, setemail] = useState("");
@@ -31,7 +33,6 @@ const index = () => {
           }),
         });
         let res = await response.json();
-        console.log(res);
       } catch (err) {
         console.log(err);
       }
@@ -52,7 +53,11 @@ const index = () => {
         }),
       });
       let res = await response.json();
+      localStorage.setItem("jwt", res.token);
       console.log(res);
+      if (res.token) {
+        router.push("/app");
+      }
     } catch (err) {
       console.log(err);
     }
