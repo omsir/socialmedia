@@ -71,14 +71,17 @@ const index = () => {
             width={120}
             height={100}
             src={"/img/img_2.jpg"}
+            alt='oppo'
           />
           <Image
+            alt='oppo'
             className='rounded-xl mt-10'
             width={300}
             height={50}
             src={"/img/img_1.jpg"}
           />
           <Image
+            alt='oppo'
             className='rounded-xl'
             width={120}
             height={50}
