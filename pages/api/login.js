@@ -19,6 +19,7 @@ export default async function handler(req, res) {
             firstname: resp[0].firstname,
             lastname: resp[0].lastname,
             email: resp[0].email,
+            profile: resp[0].profile,
           })
             .setProtectedHeader({ alg })
             .setIssuedAt()

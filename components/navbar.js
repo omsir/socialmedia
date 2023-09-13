@@ -6,10 +6,10 @@ const inter = Inter({
   weight: "400",
   subsets: ["latin"],
 });
-const Navbar = ({ name }) => {
+const Navbar = ({ name, profile }) => {
   return (
     <div
-      className={`bg-white  m-3 p-5 flex justify-between rounded-xl ${inter.className}`}
+      className={`bg-white  mb-3 p-5 flex sticky top-0 justify-between rounded-xl ${inter.className}`}
     >
       <div className='search'>
         <AiOutlineSearch className='text-2xl m-2 lg:hidden' />
@@ -38,7 +38,7 @@ const Navbar = ({ name }) => {
         </ul>
       </div>
       <div className='profile flex space-x-4'>
-        <p className='bg-sky-600  rounded-full w-8 h-8'></p>
+        <img src={profile} className='bg-sky-600  rounded-full w-8 h-8'></img>
         <span className='font-semibold lg:text-lg hidden lg:block'>{name}</span>
       </div>
     </div>

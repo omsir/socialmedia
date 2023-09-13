@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Comforter } from "next/font/google";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const comfortor = Comforter({
   weight: "400",
@@ -33,11 +35,41 @@ const index = () => {
           }),
         });
         let res = await response.json();
+        if (res.sucess) {
+          toast.success("Sucessfully Created Account", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+
+            draggable: false,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
       } catch (err) {
-        console.log(err);
+        toast.error(err.message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     } else {
-      console.log("Password doesnot match");
+      toast.error("Password Doesnot Match", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
   const handleLogin = async () => {
@@ -54,12 +86,31 @@ const index = () => {
       });
       let res = await response.json();
       localStorage.setItem("jwt", res.token);
-      console.log(res);
+
+      toast.success("Sucessfully Created Account", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
       if (res.token) {
         router.push("/app");
       }
     } catch (err) {
-      console.log(err);
+      toast.error(err.message, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
@@ -225,6 +276,7 @@ const index = () => {
             value='Sign up'
           />
         </div>
+        <ToastContainer />
       </div>
     </>
   );

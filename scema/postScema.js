@@ -1,8 +1,12 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const postScema = new mongoose.Schema(
   {
     name: {
+      type: String,
+      required: true,
+    },
+    email: {
       type: String,
       required: true,
     },
@@ -12,12 +16,13 @@ const postScema = new mongoose.Schema(
     },
     like: {
       type: Number,
+      default: 0,
     },
   },
   { timestamps: true },
 );
 
-mongoose.model = {};
+mongoose.models = {};
 
 const post = mongoose.model("posts", postScema);
 
