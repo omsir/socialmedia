@@ -85,7 +85,7 @@ const App = ({ data }) => {
   return (
     <div className='h-full'>
       <Navbar name={decoded.firstname} profile={decoded.profile} />
-      <div className='flex   '>
+      <div className='flex  '>
         <div className='left hidden lg:block fixed h-screen  bg-white w-[20%] py-5 pb-12   ted-ext-center rounded-md'>
           <div className='flex mx-5 space-x-3'>
             <img

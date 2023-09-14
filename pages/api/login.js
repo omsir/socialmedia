@@ -46,8 +46,9 @@ export default async function handler(req, res) {
           .json({ sucess: false, message: "SOmething went wrong" });
       }
     } catch (err) {
-      console.log(err);
-      res.status(401).json({ sucess: false, message: "SOmething went wrong" });
+      res
+        .status(401)
+        .json({ sucess: false, message: "Email or password doesnot match" });
     }
   }
 }

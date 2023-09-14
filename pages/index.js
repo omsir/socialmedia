@@ -10,7 +10,7 @@ const comfortor = Comforter({
   subsets: ["latin"],
 });
 
-const index = () => {
+const Index = () => {
   let router = useRouter();
   const [firstname, setfirstname] = useState("");
   const [lastname, setlastname] = useState("");
@@ -85,20 +85,33 @@ const index = () => {
         }),
       });
       let res = await response.json();
-      localStorage.setItem("jwt", res.token);
 
-      toast.success("Sucessfully Created Account", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
+      if (res.sucess) {
+        localStorage.setItem("jwt", res.token);
+        toast.success("Login Sucess", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
 
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-      });
-      if (res.token) {
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+        });
         router.push("/app");
+        console.log("dafsd");
+      } else {
+        toast.error(res.message, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        console.log(res.message);
       }
     } catch (err) {
       toast.error(err.message, {
@@ -116,6 +129,7 @@ const index = () => {
 
   return (
     <>
+      <ToastContainer />
       <div
         className={`flex justify-center md:mt-16 ${
           isSignup ? "blur-xl" : "blur-none"
@@ -282,4 +296,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
