@@ -114,6 +114,7 @@ const Index = () => {
         console.log(res.message);
       }
     } catch (err) {
+      console.log(err);
       toast.error(err.message, {
         position: "top-center",
         autoClose: 2000,

@@ -2,6 +2,7 @@ import Navbar from "@/components/navbar";
 import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 import { FaUserFriends } from "react-icons/fa";
 import {
@@ -19,6 +20,7 @@ import { useRouter } from "next/router";
 
 const App = ({ data }) => {
   const [poste, setposte] = useState(data);
+  const [isLike, setisLike] = useState(false);
 
   const router = useRouter();
   const [Post, setPost] = useState("");
@@ -30,6 +32,7 @@ const App = ({ data }) => {
     }
   };
   const handleLike = async (id) => {
+    setisLike(!isLike);
     let rep = await fetch("http://localhost:3000/api/like", {
       method: "POST",
       headers: {
@@ -148,7 +151,7 @@ const App = ({ data }) => {
               onClick={() => {
                 handlePost();
               }}
-              className='bg-sky-700 w-16 rounded-md h-10 my-5 hover:bg-sky-600'
+              className=' bg-sky-700  w-16 rounded-md h-10 my-5 hover:bg-sky-600'
             >
               <AiOutlineSend className='text-xl text-white mx-auto' />
             </button>
@@ -181,7 +184,7 @@ const App = ({ data }) => {
                     onClick={() => {
                       handleLike(dat._id);
                     }}
-                    className='flex space-x-1'
+                    className={`like flex space-x-1`}
                   >
                     <p className='text-lg font-semibold'>{dat.like}</p>
                     <AiFillLike className='text-xl  ' />
