@@ -24,8 +24,9 @@ const App = ({ data }) => {
 
   const router = useRouter();
   const [Post, setPost] = useState("");
+  
   const handleLogout = async () => {
-    let rep = await fetch("http://localhost:3000/api/logout");
+    let rep = await fetch("/api/logout");
     let data = await rep.json();
     if (data.sucess) {
       router.push("/");
@@ -33,7 +34,7 @@ const App = ({ data }) => {
   };
   const handleLike = async (id) => {
     setisLike(!isLike);
-    let rep = await fetch("http://localhost:3000/api/like", {
+    let rep = await fetch("/api/like", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,13 +44,13 @@ const App = ({ data }) => {
       }),
     });
     let parsedRep = await rep.json();
-    let post = await fetch("http://localhost:3000/api/post");
+    let post = await fetch("/api/post");
     let parsedPost = await post.json();
     setposte(parsedPost.reverse());
   };
   const handlePost = async () => {
     try {
-      let response = await fetch("http://localhost:3000/api/post", {
+      let response = await fetch("/api/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +73,7 @@ const App = ({ data }) => {
           theme: "light",
         });
         setPost("");
-        let post = await fetch("http://localhost:3000/api/post");
+        let post = await fetch("/api/post");
         let parsedPost = await post.json();
         setposte(parsedPost.reverse());
       }
@@ -210,7 +211,7 @@ export default App;
 
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res = await fetch(`http://localhost:3000/api/post`);
+  const res = await fetch(`https://bcasit.vercel.app/api/post`);
   const dat = await res.json();
   const data = dat.reverse();
 
