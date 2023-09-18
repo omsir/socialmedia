@@ -416,11 +416,3 @@ const Index = () => {
 };
 
 export default Index;
-export async function getServerSideProps() {
-  // Fetch data from external API
-  const res = await fetch(`https://bcasit.vercel/api/test`);
-  const dat = await res.json();
-
-  // Pass data to the page via props
-  return { props: { dat } };
-}
