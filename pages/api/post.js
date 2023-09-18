@@ -13,8 +13,9 @@ export default async function handler(req, res) {
       let r = await post.create({
         name: req.body.name,
         post: req.body.post,
-        email: "omprasad@gmail.com",
+        email: req.body.email,
         profile: req.body.profile,
+        image: req.body.image,
       });
       res.status(200).json({ sucess: true, message: "Post Sent" });
     } catch (err) {

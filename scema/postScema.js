@@ -22,6 +22,9 @@ const postScema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    image: {
+      type: String,
+    },
   },
   { timestamps: true },
 );
