@@ -13,10 +13,12 @@ export default async function handler(req, res) {
         lastname: req.body.lastname,
         email: req.body.email,
         password: hash,
+        profile: req.body.profile,
       });
       console.log(users);
       res.status(201).json({ sucess: true });
     } catch (err) {
+      console.log(err)
       res.status(401).json({ sucess: false });
     }
   }

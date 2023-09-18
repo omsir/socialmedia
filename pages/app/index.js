@@ -24,7 +24,7 @@ const App = ({ data }) => {
 
   const router = useRouter();
   const [Post, setPost] = useState("");
-  
+
   const handleLogout = async () => {
     let rep = await fetch("/api/logout");
     let data = await rep.json();
@@ -59,6 +59,7 @@ const App = ({ data }) => {
           email: decoded.email,
           name: decoded.firstname + " " + decoded.lastname,
           post: Post,
+          profile: decoded.profile,
         }),
       });
       let res = await response.json();
@@ -166,7 +167,7 @@ const App = ({ data }) => {
                 <div className='headers flex justify-between  '>
                   <div className='flex'>
                     <img
-                      src={decoded.profile}
+                      src={dat.profile}
                       className='bg-sky-600 mt-5  rounded-full w-8 h-8 m-2 '
                     ></img>
                     <h1 className='name md:text-lg text-sm  font-bold mt-5'>

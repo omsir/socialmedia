@@ -14,6 +14,7 @@ export default async function handler(req, res) {
         name: req.body.name,
         post: req.body.post,
         email: "omprasad@gmail.com",
+        profile: req.body.profile,
       });
       res.status(200).json({ sucess: true, message: "Post Sent" });
     } catch (err) {

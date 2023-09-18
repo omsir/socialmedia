@@ -18,7 +18,67 @@ const Index = () => {
   const [password, setpassword] = useState("");
   const [cpassword, setcpassword] = useState("");
   const [isSignup, setisSignup] = useState(false);
+  const [file, setfile] = useState();
+  const [profile, setProfile] = useState("");
+  const [hasrun, sethasrun] = useState(false);
+  const [base64, setbase64] = useState("");
 
+  const converttobase = () => {
+    const rf = new FileReader();
+    rf.readAsDataURL(file);
+    rf.onloadend = async function (event) {
+      setbase64(event.target.result);
+    };
+  };
+  // const handleImagee = async () => {
+  //   const rf = new FileReader();
+  //   rf.readAsDataURL(file); //file is from a useState() hook
+  //   rf.onloadend = async function (event) {
+  //     const body = new FormData();
+  //     body.append("image", event.target.result.split(",").pop()); //To delete 'data:image/png;base64,' otherwise imgbb won't process it.
+  //     try {
+  //       let res = await fetch(
+  //         "https://api.imgbb.com/1/upload?key=2ec68f8a6b3a19d8f9cf4c574d69e777",
+  //         {
+  //           method: "POST",
+  //           body: body,
+  //         },
+  //       );
+  //       let parsed = await res.json();
+
+  //       setProfile(parsed && parsed.data.display_url);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  // };
+  const handleImage = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "nkqy6ley");
+
+      let res = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_data_id}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+      let parsed = await res.json();
+      console.log("i am working");
+
+      setProfile(parsed);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  if (file && !hasrun) {
+    // Check if 'file' exists and the function hasn't run yet
+    handleImage();
+    converttobase();
+    sethasrun(true);
+  }
   const handleonSignup = async () => {
     if (password == cpassword) {
       try {
@@ -30,8 +90,9 @@ const Index = () => {
           body: JSON.stringify({
             firstname: firstname,
             lastname: lastname,
-            email: email,
+            email: email.toLowerCase(),
             password: password,
+            profile: profile && profile.secure_url,
           }),
         });
         let res = await response.json();
@@ -46,7 +107,20 @@ const Index = () => {
             progress: undefined,
             theme: "colored",
           });
+        } else {
+          toast.error("Something Went Wrong", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
         }
+
+        setisSignup(false);
       } catch (err) {
         toast.error(err.message, {
           position: "top-center",
@@ -99,7 +173,6 @@ const Index = () => {
           theme: "colored",
         });
         router.push("/app");
-        console.log("dafsd");
       } else {
         toast.error(res.message, {
           position: "top-center",
@@ -255,6 +328,51 @@ const Index = () => {
             className='bg-stone-200 py-2 px-4 w-[41%] focus:outline-gray-400 ml-8 rounded-md'
             type='text'
           />
+          <div className='flex items-center space-x-12 justify-center'>
+            <label
+              htmlFor='dropzone-file'
+              className='flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 '
+            >
+              <div className='flex flex-col items-center justify-center pt-5 pb-6'>
+                <svg
+                  className='w-8 h-8 mb-4 text-gray-500 dark:text-gray-400'
+                  aria-hidden='true'
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 20 16'
+                >
+                  <path
+                    stroke='currentColor'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2'
+                  />
+                </svg>
+                <p className='mb-2 text-sm text-gray-500 dark:text-gray-400'>
+                  <span className='font-semibold'>Upload your Profile</span>
+                </p>
+                <p className='text-xs text-gray-500 dark:text-gray-400'>
+                  SVG, PNG, JPG or GIF (MAX. 800x400px)
+                </p>
+              </div>
+              <input
+                onChange={(e) => {
+                  setfile(e.target.files[0]);
+                  sethasrun(false);
+                }}
+                id='dropzone-file'
+                type='file'
+                className='hidden'
+              />
+            </label>
+            <img
+              className='w-24 h-24 rounded-full'
+              src={base64 && base64}
+              alt=''
+            />
+          </div>
+
           <input
             onChange={(e) => {
               setemail(e.target.value);
@@ -298,3 +416,11 @@ const Index = () => {
 };
 
 export default Index;
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(`http://localhost:3000/api/test`);
+  const dat = await res.json();
+
+  // Pass data to the page via props
+  return { props: { dat } };
+}
