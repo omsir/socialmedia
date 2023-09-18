@@ -12,10 +12,10 @@ export default async function middleware(req) {
       if (payload.email) {
         return NextResponse.next();
       } else {
-        return NextResponse.redirect("http://localhost:3000");
+        return NextResponse.redirect("http://bcasit.vercel.app");
       }
     } catch (err) {
-      return NextResponse.redirect("http://localhost:3000");
+      return NextResponse.redirect("http://bcasit.vercel.app");
     }
   }
 }
